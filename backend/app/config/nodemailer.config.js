@@ -17,11 +17,14 @@ module.exports.sendConfirmationEmail = (name, email, confirmationCode) => {
   transport.sendMail({
     from: user,
     to: email,
-    subject: "Please confirm your account",
+    subject: "Please verify your account",
     html: `<h1>Email Confirmation</h1>
         <h2>Hello ${name}</h2>
-        <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
+        <p>Thank you for signing up to Mandala. Please confirm your email by clicking on the following link</p>
         <a href=http://localhost:8081/confirm/${confirmationCode}> Click here</a>
+        <br>
+        <p> Kind Regards </p>
+        <p> Mandala Team </p>
         </div>`,
   }).catch(err => console.log(err));
 };

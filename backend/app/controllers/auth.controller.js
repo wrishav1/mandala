@@ -12,6 +12,8 @@ exports.signup = (req, res) => {
   const token = jwt.sign({ email: req.body.email }, config.secret);
 
   const user = new User({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
     username: req.body.username,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
@@ -44,9 +46,10 @@ exports.signup = (req, res) => {
 
             res.send({
               message:
-                "User was registered successfully! Please check your email",
+                "User registered successfully! Please check your email. If it is not there, please check your junk/spam folder and if it is in the junk mail folder, remember to mark the email as 'not junk'",
             });
             nodemailer.sendConfirmationEmail(
+
               user.username,
               user.email,
               user.confirmationCode
@@ -70,7 +73,7 @@ exports.signup = (req, res) => {
           }
           res.send({
             message:
-              "User was registered successfully! Please check your email",
+            "User registered successfully! Please check your email. If it is not there, please check your junk/spam folder and if it is in the junk mail folder, remember to mark the email as 'not junk'",
           });
 
           nodemailer.sendConfirmationEmail(
@@ -128,6 +131,8 @@ exports.signin = (req, res) => {
       }
       res.status(200).send({
         id: user._id,
+        firstname: user.firstname,
+        lastname: user.lastname,
         username: user.username,
         email: user.email,
         roles: authorities,

@@ -36,6 +36,8 @@ const vusername = (value) => {
   }
 };
 
+
+
 const vpassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
@@ -51,6 +53,9 @@ const Register = (props) => {
   const checkBtn = useRef();
 
   const [username, setUsername] = useState("");
+  const [firstname, setfirstname] = useState("");
+  const [lastname, setlastname] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
@@ -59,6 +64,14 @@ const Register = (props) => {
   const onChangeUsername = (e) => {
     const username = e.target.value;
     setUsername(username);
+  };
+  const onChangefirstname = (e) => {
+    const firstname = e.target.value;
+    setfirstname(firstname);
+  };
+  const onChangelastname = (e) => {
+    const lastname = e.target.value;
+    setlastname(lastname);
   };
 
   const onChangeEmail = (e) => {
@@ -80,7 +93,7 @@ const Register = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(username, email, password).then(
+      AuthService.register(firstname, lastname, username, email, password).then(
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);
@@ -112,6 +125,26 @@ const Register = (props) => {
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
+                            <div className="form-group">
+                <label htmlFor="firstname">First Name</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="firstname"
+                  value={firstname}
+                  onChange={onChangefirstname}
+                  />
+                </div>
+                <div className="form-group">
+                <label htmlFor="lastname">Last Name</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="lastname"
+                  value={lastname}
+                  onChange={onChangelastname}
+                />
+                </div>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <Input
@@ -123,7 +156,6 @@ const Register = (props) => {
                   validations={[required, vusername]}
                 />
               </div>
-
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <Input
